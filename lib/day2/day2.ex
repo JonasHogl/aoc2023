@@ -35,9 +35,9 @@ defmodule Day2 do
       && omgång.blues <= @max_blue
   end
 
-  def summera_omgångsnummren(game, acc), do: game.game + acc
+  def summera_omgångsnummren(%Game{game: game}, acc), do: game + acc
 
-  def mappa_till_power(game), do: game.reds * game.greens * game.blues
+  def mappa_till_power(%Game{reds: reds, greens: greens, blues: blues}), do: reds * greens * blues
 
   def summera_power(power, acc), do: power + acc
 
