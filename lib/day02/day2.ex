@@ -1,6 +1,6 @@
 defmodule Day2 do
 
-  @fil File.read!("lib/day2/del1.txt") |> String.trim |> String.split("\n")
+  @fil File.read!("lib/day02/del1.txt") |> String.trim |> String.split("\n")
   @max_red 12
   @max_green 13
   @max_blue 14

@@ -1,7 +1,7 @@
 defmodule Day3 do
   
-  @test File.read!("lib/day3/test.txt") |> String.trim |> String.split("\n")
-  @prov File.read!("lib/day3/prov.txt") |> String.trim |> String.split("\n")
+  @test File.read!("lib/day03/test.txt") |> String.trim |> String.split("\n")
+  @prov File.read!("lib/day03/prov.txt") |> String.trim |> String.split("\n")
 
 
   defmodule Part do
@@ -32,7 +32,6 @@ defmodule Day3 do
     siffror = rader_med_index |> Enum.flat_map(&mappa_rad_till_siffer_delar/1)
 
     r = siffror |> Enum.map(fn s -> para_ihop_med_synbolgrannar(s, symboler) end)
-    IO.inspect r
 
     r |> Enum.filter(&har_siffran_minst_en_granne?/1)
       |> Enum.reduce(0, &summera_delnummer/2)
@@ -48,12 +47,12 @@ defmodule Day3 do
 
     siffror = rader_med_index |> Enum.flat_map(&mappa_rad_till_siffer_delar/1)
 
-    symboler = rader_med_index |> Enum.flat_map(&mappa_rad_till_symbol_delar/1) 
-                               |> Enum.filter(fn %Part{part_nr: part} -> part === "*" end)
-                               |> Enum.map(fn s -> para_ihop_med_siffergrannar(s, siffror) end)
-                               |> Enum.filter(&har_symbolen_två_grannar?/1)
-                               |> Enum.map(&mappa_till_gear_ratio/1)
-                               |> Enum.reduce(0, (fn x, acc -> x + acc end))
+    rader_med_index |> Enum.flat_map(&mappa_rad_till_symbol_delar/1) 
+                    |> Enum.filter(fn %Part{part_nr: part} -> part === "*" end)
+                    |> Enum.map(fn s -> para_ihop_med_siffergrannar(s, siffror) end)
+                    |> Enum.filter(&har_symbolen_två_grannar?/1)
+                    |> Enum.map(&mappa_till_gear_ratio/1)
+                    |> Enum.reduce(0, (fn x, acc -> x + acc end))
 
   end
 
@@ -101,13 +100,13 @@ defmodule Day3 do
   def mappa_rad_till_siffer_delar({rad, rad_nr}), do: mappa_rad_till_siffer_delar(rad, %Part{row: rad_nr}, [])
   defp mappa_rad_till_siffer_delar([], part, radens_komponenter) when part.part_nr !== "", do: radens_komponenter ++ [part]
   defp mappa_rad_till_siffer_delar([], _, radens_komponenter), do: radens_komponenter
-  defp mappa_rad_till_siffer_delar([{symbol, kolumn_nr} | rest], part, radens_komponenter) when symbol >= "0" and symbol <= "9" and part.part_nr !== "" do
+  defp mappa_rad_till_siffer_delar([{symbol, _} | rest], part, radens_komponenter) when symbol >= "0" and symbol <= "9" and part.part_nr !== "" do
     mappa_rad_till_siffer_delar(rest, %Part{part_nr: part.part_nr <> symbol, row: part.row, col: part.col}, radens_komponenter)
   end
   defp mappa_rad_till_siffer_delar([{symbol, kolumn_nr} | rest], part, radens_komponenter) when symbol >= "0" and symbol <= "9" do
     mappa_rad_till_siffer_delar(rest, %Part{part_nr: symbol, row: part.row, col: kolumn_nr}, radens_komponenter)
   end
-  defp mappa_rad_till_siffer_delar([{symbol, kolumn_nr} | rest], part, radens_komponenter) when part.part_nr !== "" do
+  defp mappa_rad_till_siffer_delar([{_, _} | rest], part, radens_komponenter) when part.part_nr !== "" do
     mappa_rad_till_siffer_delar(rest, %Part{row: part.row}, radens_komponenter ++ [part])
   end
   defp mappa_rad_till_siffer_delar([{_, _} | rest], part, radens_komponenter) do

@@ -1,6 +1,6 @@
 defmodule Day4 do
-  @test File.read!("lib/day4/test.txt") |> String.trim |> String.split("\n")
-  @prov File.read!("lib/day4/prov.txt") |> String.trim |> String.split("\n")
+  @test File.read!("lib/day04/test.txt") |> String.trim |> String.split("\n")
+  @prov File.read!("lib/day04/prov.txt") |> String.trim |> String.split("\n")
 
   defmodule Card do
    defstruct card_nr: 0, winners: [], numbers: [], count: 1

@@ -1,6 +1,6 @@
 defmodule Day1 do
 
-  @fil "lib/day1/del2.txt"
+  @fil "lib/day01/del2.txt"
 
   def del1 do
     Enum.to_list(File.stream!(@fil))
